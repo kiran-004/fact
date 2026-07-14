@@ -1,8 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue, set, update } from 'firebase/database';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: '@secret:GOOGLE_API_KEY',
+  apiKey: import.meta.env.GOOGLE_API_KEY || '@secret:GOOGLE_API_KEY',
   authDomain: 'smarthome-7cf27.firebaseapp.com',
   databaseURL: 'https://smarthome-7cf27-default-rtdb.firebaseio.com',
   projectId: 'smarthome-7cf27',
@@ -14,6 +15,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const auth = getAuth(app);
 
 export const subscribe = (path, cb) => {
   const r = ref(db, path);
@@ -22,4 +24,4 @@ export const subscribe = (path, cb) => {
 
 export const writeValue = async (path, value) => { await set(ref(db, path), value); };
 export const updateValue = async (path, updates) => { await update(ref(db, path), updates); };
-export { db };
+export { db, auth };

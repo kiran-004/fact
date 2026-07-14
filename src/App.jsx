@@ -8,14 +8,21 @@ import Threshold from './pages/Threshold';
 import Alerts from './pages/Alerts';
 import RelayControl from './pages/RelayControl';
 import SystemStatus from './pages/SystemStatus';
+import Reports from './pages/Reports';
+import Login from './pages/Login';
 import { useFirebaseData, useReadingHistory, useAlertHistory } from './hooks/useFirebase';
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 1024);
   const [dark, setDark] = useState(true);
+  const [user, setUser] = useState(() => localStorage.getItem('fms_user') || null);
   const { data, loading } = useFirebaseData();
   const { history, addReading, clearHistory } = useReadingHistory();
   const { alerts, addAlert, clearAlerts } = useAlertHistory();
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  }, [dark]);
 
   useEffect(() => {
     if (loading) return;
@@ -38,9 +45,23 @@ export default function App() {
     }
   }, [alertActive, data.Alert?.Message, data.Sensors?.Gas, data.Sensors?.Motion, addAlert]);
 
+  const handleLogin = (username) => {
+    setUser(username);
+    localStorage.setItem('fms_user', username);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('fms_user');
+  };
+
+  if (!user) {
+    return <Login onLogin={handleLogin} dark={dark} setDark={setDark} />;
+  }
+
   return (
     <div style={{ minHeight: '100vh' }}>
-      <Navbar onToggleSidebar={() => setSidebarOpen((o) => !o)} dark={dark} setDark={setDark} />
+      <Navbar onToggleSidebar={() => setSidebarOpen((o) => !o)} dark={dark} setDark={setDark} user={user} onLogout={handleLogout} />
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <main style={{ marginLeft: sidebarOpen && window.innerWidth >= 1024 ? 248 : 0, padding: '24px', transition: 'margin 0.3s cubic-bezier(0.16,1,0.3,1)' }}>
         <Routes>
@@ -50,6 +71,7 @@ export default function App() {
           <Route path="/alerts" element={<Alerts data={data} alerts={alerts} onClear={clearAlerts} />} />
           <Route path="/relay" element={<RelayControl data={data} />} />
           <Route path="/system" element={<SystemStatus data={data} loading={loading} history={history} onClearHistory={clearHistory} />} />
+          <Route path="/reports" element={<Reports history={history} />} />
         </Routes>
       </main>
     </div>

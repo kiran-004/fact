@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Gauge, SlidersHorizontal, Bell, ToggleRight, Activity } from 'lucide-react';
+import { LayoutDashboard, Gauge, SlidersHorizontal, Bell, ToggleRight, Activity, FileText } from 'lucide-react';
 
 const nav = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
@@ -8,12 +8,13 @@ const nav = [
   { to: '/alerts', label: 'Alerts', icon: Bell },
   { to: '/relay', label: 'Relay Control', icon: ToggleRight },
   { to: '/system', label: 'System Status', icon: Activity },
+  { to: '/reports', label: 'Reports', icon: FileText },
 ];
 
 export default function Sidebar({ open, onClose }) {
   return (
     <>
-      {open && <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 40, backdropFilter: 'blur(2px)' }} />}
+      {open && <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.35)', zIndex: 40 }} />}
       <aside className="glass" style={{ width: 248, flexShrink: 0, padding: '16px 12px', borderRight: '1px solid var(--border)', borderTop: 'none', borderBottom: 'none', borderLeft: 'none', borderRadius: 0, position: 'fixed', left: 0, top: 64, bottom: 0, transform: open ? 'translateX(0)' : 'translateX(-100%)', transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1)', zIndex: 50, overflowY: 'auto' }}>
         <nav style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           {nav.map(({ to, label, icon: Icon, end }) => (
