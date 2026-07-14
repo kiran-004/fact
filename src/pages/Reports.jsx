@@ -86,7 +86,7 @@ export default function Reports({ history }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 12 }}>
         <div>
           <div className="page-title" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <FileText size={22} color="var(--primary)" /> Reports
+            <FileText size={22} color="var(--text-0)" /> Reports
           </div>
           <div className="page-sub">Filter by date, time &amp; sensor · export to CSV</div>
         </div>
@@ -98,7 +98,7 @@ export default function Reports({ history }) {
       {/* ── Date / Time Filter ── */}
       <div className="glass" style={{ padding: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-          <Calendar size={16} color="var(--primary)" />
+          <Calendar size={16} color="var(--text-0)" />
           <span style={{ fontWeight: 700, fontSize: 14 }}>Date &amp; Time Range</span>
           {(fromDt || toDt) && (
             <button onClick={clearRange} className="btn btn-ghost" style={{ padding: '4px 10px', fontSize: 11, marginLeft: 'auto' }}>
@@ -133,7 +133,7 @@ export default function Reports({ history }) {
       {/* ── Sensor Checkboxes ── */}
       <div className="glass" style={{ padding: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-          <Filter size={16} color="var(--primary)" />
+          <Filter size={16} color="var(--text-0)" />
           <span style={{ fontWeight: 700, fontSize: 14 }}>Select Sensors</span>
           <button onClick={toggleAll} className="btn btn-ghost" style={{ padding: '4px 12px', fontSize: 11, marginLeft: 'auto' }}>
             {selected.size === ALL_SENSORS.length ? <CheckSquare size={13} /> : <Square size={13} />}
@@ -146,14 +146,14 @@ export default function Reports({ history }) {
             return (
               <label key={s.key} onClick={() => toggleSensor(s.key)}
                 style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderRadius: 'var(--radius-sm)',
-                  border: `1px solid ${on ? s.color + '55' : 'var(--border)'}`,
-                  background: on ? s.color + '11' : 'var(--bg-1)',
+                  border: `1px solid ${on ? 'var(--border-strong)' : 'var(--border)'}`,
+                  background: on ? 'var(--bg-3)' : 'var(--bg-1)',
                   cursor: 'pointer', transition: 'all 0.18s', userSelect: 'none' }}>
                 <span style={{ flexShrink: 0, width: 18, height: 18, borderRadius: 5,
-                  border: `2px solid ${on ? s.color : 'var(--border-strong)'}`,
-                  background: on ? s.color : 'transparent',
+                  border: `2px solid ${on ? 'var(--text-0)' : 'var(--border-strong)'}`,
+                  background: on ? 'var(--text-0)' : 'transparent',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.18s' }}>
-                  {on && <svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#fff" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  {on && <svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="var(--bg-1)" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                 </span>
                 <span style={{ fontSize: 13, fontWeight: 600, color: on ? 'var(--text-0)' : 'var(--text-2)' }}>
                   {s.label}
@@ -168,19 +168,19 @@ export default function Reports({ history }) {
       {/* ── Results Summary ── */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
         <div className="glass" style={{ padding: '10px 18px', borderRadius: 'var(--radius-sm)', display: 'flex', gap: 6, alignItems: 'center' }}>
-          <Search size={14} color="var(--primary)" />
+          <Search size={14} color="var(--text-0)" />
           <span style={{ fontSize: 13, fontWeight: 600 }}>{filtered.length}</span>
           <span style={{ fontSize: 12, color: 'var(--text-2)' }}>readings matched</span>
         </div>
         <div className="glass" style={{ padding: '10px 18px', borderRadius: 'var(--radius-sm)', display: 'flex', gap: 6, alignItems: 'center' }}>
-          <CheckSquare size={14} color="var(--success)" />
+          <CheckSquare size={14} color="var(--text-0)" />
           <span style={{ fontSize: 13, fontWeight: 600 }}>{activeSensors.length}</span>
           <span style={{ fontSize: 12, color: 'var(--text-2)' }}>sensors selected</span>
         </div>
         {filtered.length > 0 && (
           <>
             <div className="glass" style={{ padding: '10px 18px', borderRadius: 'var(--radius-sm)', display: 'flex', gap: 6, alignItems: 'center' }}>
-              <Calendar size={14} color="var(--accent)" />
+              <Calendar size={14} color="var(--text-0)" />
               <span style={{ fontSize: 12, color: 'var(--text-2)' }}>
                 {new Date(filtered[0].t).toLocaleDateString()} – {new Date(filtered[filtered.length - 1].t).toLocaleDateString()}
               </span>
@@ -208,7 +208,7 @@ export default function Reports({ history }) {
                   <th>Day</th>
                   {activeSensors.map((s) => (
                     <th key={s.key}>
-                      <span style={{ color: s.color }}>{s.label}</span>
+                      <span style={{ color: 'var(--text-0)' }}>{s.label}</span>
                       {s.unit && <span style={{ color: 'var(--text-3)', marginLeft: 3 }}>({s.unit})</span>}
                     </th>
                   ))}
@@ -227,7 +227,7 @@ export default function Reports({ history }) {
                         const v = row[s.key];
                         const display = v === null || v === undefined ? '—' : typeof v === 'boolean' ? (v ? 'YES' : 'NO') : v;
                         return (
-                          <td key={s.key} className="mono" style={{ fontWeight: 600, color: s.color }}>
+                          <td key={s.key} className="mono" style={{ fontWeight: 600, color: 'var(--text-1)' }}>
                             {display}{v !== null && v !== undefined && s.unit ? <span style={{ fontSize: 11, color: 'var(--text-3)', fontWeight: 400 }}> {s.unit}</span> : ''}
                           </td>
                         );

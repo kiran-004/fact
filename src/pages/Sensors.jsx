@@ -6,7 +6,7 @@ function BigCard({ icon: Icon, title, value, unit, status, color, lastUpdated })
   return (
     <div className="glass card-hover fade-in" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}><div style={{ width: 52, height: 52, borderRadius: 14, background: `${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon size={26} color={color} /></div><div><div style={{ fontWeight: 700, fontSize: 16 }}>{title}</div><div style={{ fontSize: 12, color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}><Clock size={12} /> {lastUpdated || '—'}</div></div></div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}><div style={{ width: 52, height: 52, borderRadius: 14, background: 'var(--bg-3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon size={26} color="var(--text-0)" /></div><div><div style={{ fontWeight: 700, fontSize: 16 }}>{title}</div><div style={{ fontSize: 12, color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}><Clock size={12} /> {lastUpdated || '—'}</div></div></div>
         <span className={`badge badge-${status.color}`}>{status.text}</span>
       </div>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}><span className="mono" style={{ fontSize: 42, fontWeight: 700, letterSpacing: '-0.03em', color }}>{value ?? '--'}</span>{unit && <span style={{ fontSize: 18, color: 'var(--text-2)' }}>{unit}</span>}</div>

@@ -5,7 +5,7 @@ export default function ChartCard({ title, data, dataKey, color, unit, icon: Ico
   return (
     <div className="glass fade-in" style={{ padding: 18, display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>{Icon && <div style={{ width: 32, height: 32, borderRadius: 10, background: `${color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon size={16} color={color} /></div>}<div><div style={{ fontWeight: 700, fontSize: 14 }}>{title}</div><div style={{ fontSize: 11, color: 'var(--text-3)' }}>Last {Math.min(last, points.length)} readings</div></div></div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>{Icon && <div style={{ width: 32, height: 32, borderRadius: 10, background: 'var(--bg-3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon size={16} color="var(--text-0)" /></div>}<div><div style={{ fontWeight: 700, fontSize: 14 }}>{title}</div><div style={{ fontSize: 11, color: 'var(--text-3)' }}>Last {Math.min(last, points.length)} readings</div></div></div>
         {points.length > 0 && <span className="mono" style={{ fontSize: 13, fontWeight: 600, color }}>{points[points.length - 1].value} {unit}</span>}
       </div>
       <div style={{ height: 180 }}>
