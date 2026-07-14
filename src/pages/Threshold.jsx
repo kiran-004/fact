@@ -10,7 +10,6 @@ const THRESHOLD_FIELDS = [
   { key: 'BenzeneThreshold', label: 'Benzene Threshold', unit: 'ppm', color: '#ec4899', icon: Gauge },
   { key: 'SmokeThreshold', label: 'Smoke Threshold', unit: 'ppm', color: '#64748b', icon: Gauge },
   { key: 'CO2Threshold', label: 'CO2 Threshold', unit: 'ppm', color: '#ef4444', icon: Gauge },
-  { key: 'CurrentThreshold', label: 'Current Threshold', unit: 'A', color: '#22c55e', icon: Zap },
 ];
 
 export default function Threshold({ settings }) {

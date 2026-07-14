@@ -14,7 +14,7 @@ const nav = [
 export default function Sidebar({ open, onClose }) {
   return (
     <>
-      {open && <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.35)', zIndex: 40 }} />}
+      {open && window.innerWidth < 1024 && <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'transparent', zIndex: 40 }} />}
       <aside style={{ width: 248, flexShrink: 0, padding: '16px 12px', background: 'var(--bg-1)', borderRight: '1px solid var(--border)', borderRadius: 0, position: 'fixed', left: 0, top: 64, bottom: 0, transform: open ? 'translateX(0)' : 'translateX(-100%)', transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1)', zIndex: 50, overflowY: 'auto', boxShadow: 'var(--shadow)' }}>
         <nav style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           {nav.map(({ to, label, icon: Icon, end }) => (
