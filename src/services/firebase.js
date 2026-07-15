@@ -3,7 +3,7 @@ import { getDatabase, ref, onValue, set, update } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.GOOGLE_API_KEY || '@secret:GOOGLE_API_KEY',
+  apiKey: import.meta.env.VITE_GOOGLE_API_KEY || 'AIzaSyBn46ddx4hKgm0bRD7l_K3uWpXXH9m3_wY',
   authDomain: 'smarthome-7cf27.firebaseapp.com',
   databaseURL: 'https://smarthome-7cf27-default-rtdb.firebaseio.com',
   projectId: 'smarthome-7cf27',
