@@ -48,6 +48,20 @@ function parseTimestamp(ts) {
   return NaN;
 }
 
+function flattenHistory(obj) {
+  if (!obj || typeof obj !== 'object') return [];
+  if (obj.Timestamp !== undefined) {
+    return [obj];
+  }
+  const entries = [];
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      entries.push(...flattenHistory(obj[key]));
+    }
+  }
+  return entries;
+}
+
 export function useFirebaseHistory() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +73,7 @@ export function useFirebaseHistory() {
         setLoading(false);
         return;
       }
-      const entries = Object.values(val)
+      const entries = flattenHistory(val)
         .map((entry) => {
           const tVal = parseTimestamp(entry.Timestamp);
           return {
