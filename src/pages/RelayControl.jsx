@@ -7,7 +7,7 @@ export default function RelayControl({ data }) {
   const r1 = data.Relay1 || {};
   const r2 = data.Relay2 || {};
   const [busy, setBusy] = useState(false);
-  const handleToggle = async () => { const current = r2.Command === 'ON' || r2.Command === true; setBusy(true); try { await writeValue('Relay2/Command', current ? 'OFF' : 'ON'); } catch (e) { console.error(e); } setBusy(false); };
+  const handleToggle = async () => { const current = r2.Command === 'ON' || r2.Command === true; setBusy(true); try { await writeValue('SmartHome/Relay2/Command', current ? 'OFF' : 'ON'); } catch (e) { console.error(e); } setBusy(false); };
   return (
     <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       <div><div className="page-title">Relay Control</div><div className="page-sub">Relay 1 is display-only (ESP32 controlled) · Relay 2 can be toggled</div></div>

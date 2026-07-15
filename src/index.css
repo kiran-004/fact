@@ -101,4 +101,5 @@ table.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .data-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); color: var(--text-1); }
 .data-table tr:last-child td { border-bottom: none; }
 .data-table tr:hover td { background: rgba(99,132,255,0.04); }
+@keyframes spin { to { transform: rotate(360deg); } }
 @media (max-width: 768px) { .page-title { font-size: 19px; } }

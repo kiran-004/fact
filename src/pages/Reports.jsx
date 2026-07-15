@@ -1,11 +1,10 @@
 import { useState, useMemo } from 'react';
-import { FileText, Calendar, Clock, Download, Search, CheckSquare, Square, Filter, X, ChevronDown } from 'lucide-react';
+import { FileText, Calendar, Clock, Download, Search, CheckSquare, Square, Filter, X, ChevronDown, Database, Loader } from 'lucide-react';
 import { downloadCSV, formatTime } from '../utils/csv';
 
 const ALL_SENSORS = [
   { key: 'Temperature', label: 'Temperature', unit: '°C', color: '#3b82f6' },
   { key: 'Humidity',    label: 'Humidity',    unit: '%',  color: '#06b6d4' },
-  { key: 'Gas',         label: 'Gas (Raw)',   unit: 'ppm',color: '#ef4444' },
   { key: 'NH3',         label: 'NH3',         unit: 'ppm',color: '#06b6d4' },
   { key: 'NOx',         label: 'NOx',         unit: 'ppm',color: '#f59e0b' },
   { key: 'Alcohol',     label: 'Alcohol',     unit: 'ppm',color: '#a855f7' },
@@ -26,7 +25,7 @@ function toLocalDatetimeValue(ts) {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-export default function Reports({ history }) {
+export default function Reports({ history, historyLoading }) {
   const data = history || [];
 
   // Sensor selection
@@ -88,9 +87,14 @@ export default function Reports({ history }) {
           <div className="page-title" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <FileText size={22} color="var(--text-0)" /> Reports
           </div>
-          <div className="page-sub">Filter by date, time &amp; sensor · export to CSV</div>
+          <div className="page-sub" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span>Filter by date, time &amp; sensor · export to CSV</span>
+            <span className="badge badge-blue" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 11 }}>
+              <Database size={11} /> Firebase History
+            </span>
+          </div>
         </div>
-        <button className="btn btn-primary" onClick={handleDownload} disabled={!filtered.length || !activeSensors.length}>
+        <button className="btn btn-primary" onClick={handleDownload} disabled={historyLoading || !filtered.length || !activeSensors.length}>
           <Download size={16} /> Download CSV
         </button>
       </div>
@@ -191,7 +195,13 @@ export default function Reports({ history }) {
 
       {/* ── Data Table ── */}
       <div className="glass" style={{ padding: 0, overflow: 'hidden' }}>
-        {filtered.length === 0 || activeSensors.length === 0 ? (
+        {historyLoading ? (
+          <div style={{ padding: 48, textAlign: 'center', color: 'var(--text-3)' }}>
+            <Loader size={40} style={{ marginBottom: 10, animation: 'spin 1s linear infinite' }} />
+            <div style={{ fontWeight: 600 }}>Loading history from Firebase…</div>
+            <div style={{ fontSize: 12, marginTop: 4 }}>Fetching 1-minute averaged readings</div>
+          </div>
+        ) : filtered.length === 0 || activeSensors.length === 0 ? (
           <div style={{ padding: 48, textAlign: 'center', color: 'var(--text-3)' }}>
             <FileText size={40} style={{ marginBottom: 10 }} />
             <div style={{ fontWeight: 600 }}>{activeSensors.length === 0 ? 'Select at least one sensor' : 'No readings in selected range'}</div>

@@ -3,7 +3,6 @@ import { Save, CheckCircle2, XCircle, Gauge, Zap } from 'lucide-react';
 import { updateValue } from '../services/firebase';
 
 const THRESHOLD_FIELDS = [
-  { key: 'GasThreshold', label: 'Gas (Raw) Threshold', unit: 'ppm', color: '#3b82f6', icon: Gauge },
   { key: 'NH3Threshold', label: 'NH3 Threshold', unit: 'ppm', color: '#06b6d4', icon: Gauge },
   { key: 'NOxThreshold', label: 'NOx Threshold', unit: 'ppm', color: '#f59e0b', icon: Gauge },
   { key: 'AlcoholThreshold', label: 'Alcohol Threshold', unit: 'ppm', color: '#a855f7', icon: Gauge },
@@ -50,7 +49,7 @@ export default function Threshold({ settings }) {
 
     setGlobalStatus({ type: 'saving', msg: 'Saving changes...' });
     try {
-      await updateValue('Settings', updates);
+      await updateValue('SmartHome/Settings', updates);
       setGlobalStatus({ type: 'success', msg: 'Settings saved' });
       setStatus({});
       setTimeout(() => setGlobalStatus(null), 3000);

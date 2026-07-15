@@ -10,7 +10,7 @@ import RelayControl from './pages/RelayControl';
 import SystemStatus from './pages/SystemStatus';
 import Reports from './pages/Reports';
 import Login from './pages/Login';
-import { useFirebaseData, useReadingHistory, useAlertHistory } from './hooks/useFirebase';
+import { useFirebaseData, useFirebaseHistory, useReadingHistory, useAlertHistory } from './hooks/useFirebase';
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 1024);
@@ -19,6 +19,7 @@ export default function App() {
   const { data, loading } = useFirebaseData();
   const { history, addReading, clearHistory } = useReadingHistory();
   const { alerts, addAlert, clearAlerts } = useAlertHistory();
+  const { history: firebaseHistory, loading: historyLoading } = useFirebaseHistory();
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
@@ -66,12 +67,12 @@ export default function App() {
       <main style={{ marginLeft: sidebarOpen && window.innerWidth >= 1024 ? 248 : 0, padding: '24px', transition: 'margin 0.3s cubic-bezier(0.16,1,0.3,1)' }}>
         <Routes>
           <Route path="/" element={<Dashboard data={data} loading={loading} history={history} alerts={alerts} />} />
-          <Route path="/sensors" element={<Sensors data={data} loading={loading} history={history} onClearHistory={clearHistory} />} />
+          <Route path="/sensors" element={<Sensors data={data} loading={loading} />} />
           <Route path="/threshold" element={<Threshold settings={data.Settings} />} />
           <Route path="/alerts" element={<Alerts data={data} alerts={alerts} onClear={clearAlerts} />} />
           <Route path="/relay" element={<RelayControl data={data} />} />
-          <Route path="/system" element={<SystemStatus data={data} loading={loading} history={history} onClearHistory={clearHistory} />} />
-          <Route path="/reports" element={<Reports history={history} />} />
+          <Route path="/system" element={<SystemStatus data={data} loading={loading} />} />
+          <Route path="/reports" element={<Reports history={firebaseHistory} historyLoading={historyLoading} />} />
         </Routes>
       </main>
     </div>

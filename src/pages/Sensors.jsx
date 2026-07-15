@@ -1,5 +1,4 @@
 import { Thermometer, Droplets, Wind, Footprints, Clock, Activity } from 'lucide-react';
-import DownloadBar from '../components/DownloadBar';
 import { GAS_TYPES } from '../hooks/useFirebase';
 
 function BigCard({ icon: Icon, title, value, unit, status, color, lastUpdated }) {
@@ -14,23 +13,22 @@ function BigCard({ icon: Icon, title, value, unit, status, color, lastUpdated })
   );
 }
 
-export default function Sensors({ data, loading, history, onClearHistory }) {
+export default function Sensors({ data, loading }) {
   const s = data.Sensors || {};
   const motionDetected = s.Motion === true || s.Motion === 'true' || s.Motion === 1 || s.Motion === 'Detected';
   const lastUpdated = new Date().toLocaleTimeString(undefined, { hour12: false });
   return (
     <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 12 }}><div><div className="page-title">Sensors</div><div className="page-sub">All sensor readings update automatically from Firebase</div></div><DownloadBar history={history} onClear={onClearHistory} filename="sensor-readings.csv" /></div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 12 }}><div><div className="page-title">Sensors</div><div className="page-sub">All sensor readings update automatically from Firebase</div></div></div>
       <div className="grid-cards" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
         <BigCard icon={Thermometer} title="Temperature" value={s.Temperature} unit="°C" status={{ text: 'Live', color: 'success' }} color="#3b82f6" lastUpdated={lastUpdated} />
         <BigCard icon={Droplets} title="Humidity" value={s.Humidity} unit="%" status={{ text: 'Live', color: 'success' }} color="#06b6d4" lastUpdated={lastUpdated} />
-        <BigCard icon={Wind} title="Gas (Raw)" value={s.Gas} unit="ppm" status={{ text: 'Live', color: 'success' }} color="#ef4444" lastUpdated={lastUpdated} />
         <BigCard icon={Footprints} title="Motion" value={motionDetected ? 'Detected' : 'No Motion'} status={{ text: motionDetected ? 'Detected' : 'Clear', color: motionDetected ? 'warning' : 'neutral' }} color="#f59e0b" lastUpdated={lastUpdated} />
       </div>
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}><Activity size={16} color="var(--primary)" /><span style={{ fontWeight: 700, fontSize: 15 }}>MQ Sensor — Detected Gases</span></div>
         <div className="grid-cards" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
-          {GAS_TYPES.filter((g) => g.key !== 'Gas').map((g) => (<BigCard key={g.key} icon={Wind} title={g.label} value={s[g.key]} unit={g.unit} status={{ text: 'Live', color: 'success' }} color={g.color} lastUpdated={lastUpdated} />))}
+          {GAS_TYPES.map((g) => (<BigCard key={g.key} icon={Wind} title={g.label} value={s[g.key]} unit={g.unit} status={{ text: 'Live', color: 'success' }} color={g.color} lastUpdated={lastUpdated} />))}
         </div>
       </div>
     </div>
