@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
@@ -40,11 +40,15 @@ export default function App() {
   }, [data, loading, addReading]);
 
   const alertActive = data.Alert?.Status === true || data.Alert?.Status === 'true' || data.Alert?.Status === 'Active';
+  const prevAlertActive = useRef(false);
+
   useEffect(() => {
-    if (alertActive) {
+    if (loading) return;
+    if (alertActive && !prevAlertActive.current) {
       addAlert({ time: Date.now(), gas: data.Sensors?.Gas, motion: data.Sensors?.Motion, message: data.Alert?.Message || 'Gas leak detected', status: 'Active' });
     }
-  }, [alertActive, data.Alert?.Message, data.Sensors?.Gas, data.Sensors?.Motion, addAlert]);
+    prevAlertActive.current = alertActive;
+  }, [alertActive, loading, data.Sensors?.Gas, data.Sensors?.Motion, data.Alert?.Message, addAlert]);
 
   const handleLogin = (username) => {
     setUser(username);
